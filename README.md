@@ -6,7 +6,6 @@ A full-stack web application for employees to apply for leave and track leave ba
 
 - **Frontend:** https://employee-leave-management-floyd.vercel.app
 - **Backend API:** https://backend-blush-beta-84.vercel.app
-- **API health:** https://backend-blush-beta-84.vercel.app/health
 - **GitHub source:** https://github.com/Floydsequeira07/employee-leave-management
 
 The frontend and backend are hosted on Vercel. The hosted MySQL database is on Aiven.

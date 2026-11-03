@@ -139,7 +139,11 @@ function AdminDashboard() {
       // Close popup
       closeConfirmation();
 
-      toast.success(`Leave ${type}d successfully`);
+      toast.success(
+  type === "approve"
+    ? "Leave approved successfully"
+    : "Leave rejected successfully"
+);
 
       // Immediately refresh admin data
       await loadData();

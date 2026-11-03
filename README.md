@@ -1,204 +1,105 @@
-# Leave Management System
+# Employee Leave Management System
 
-A full-stack Leave Management System developed as part of the Full Stack Developer selection task for **Exelon Circuits Pvt. Ltd.**
+A full-stack web application for employees to apply for leave and track leave balances, and for administrators to review, approve, or reject leave requests. Developed for the Exelon Circuits Pvt. Ltd. Full Stack Developer selection task.
 
-The application provides separate workflows for employees and administrators to manage leave requests, approvals, leave history, and leave balances.
+## Live deployment
 
-The application is designed to be **responsive** and works across desktop, tablet, and mobile screen sizes.
+- **Frontend:** https://employee-leave-management-floyd.vercel.app
+- **Backend API:** https://backend-blush-beta-84.vercel.app
+- **API health:** https://backend-blush-beta-84.vercel.app/health
+- **GitHub source:** https://github.com/Floydsequeira07/employee-leave-management
 
----
+The frontend and backend are hosted on Vercel. The hosted MySQL database is on Aiven.
 
-## 1. Project Overview
+## Project overview
 
-The Leave Management System allows employees to:
+The application provides separate employee and administrator workflows. Employees can view their leave balances, submit requests, and track request status. Administrators can view requests and summary information and approve or reject requests.
 
-- Log in securely
-- View their leave balance
-- Apply for leave
-- View their leave history
-- Track the status of leave requests
-- View approved, rejected, and pending leave requests
-- Track paid leave and Loss of Pay (LOP)
+## Features
 
-Administrators can:
+### Employee
+- Role-based login.
+- View casual, sick, earned, and unpaid leave information.
+- Apply for leave with type, date range, and reason.
+- View leave request history and status.
 
-- Log in through the Admin role
-- View the admin dashboard
-- View employee leave requests
-- View employee leave balances
-- Approve leave requests
-- Reject leave requests
-- View overall leave statistics
+### Administrator
+- Administrator dashboard and summary statistics.
+- View employee leave requests.
+- Approve or reject leave requests.
+- Access protected administrative routes.
 
-The system uses:
+### Platform
+- Responsive React interface.
+- JWT-based authentication.
+- Password hashing with bcryptjs.
+- MySQL persistence.
+- CORS configuration, Helmet security headers, response compression, and login rate limiting.
 
-- React.js for the frontend
-- JavaScript for application development
-- Node.js and Express.js for the backend
-- MySQL for the database
-- Tailwind CSS for responsive UI styling
-
----
-
-## 2. Features
-
-### Employee Features
-
-- Employee login
-- Role-based login
-- Employee dashboard
-- View Casual Leave balance
-- View Sick Leave balance
-- View Earned Leave balance
-- View LOP (Loss of Pay)
-- Apply for leave
-- Select leave type
-- Select start and end dates
-- Enter leave reason
-- View leave history
-- View leave request status
-- Responsive user interface
-- Automatic refresh of leave status and balance
-
-### Admin Features
-
-- Admin login
-- Admin dashboard
-- View total number of employees
-- View pending leave requests
-- View approved leave requests
-- View rejected leave requests
-- View all employee leave requests
-- View employee leave balances
-- Approve leave requests
-- Reject leave requests
-- Confirmation popup before approving/rejecting leave
-- Responsive admin interface
-
-### Leave Management
-
-The system supports:
-
-- Casual Leave
-- Sick Leave
-- Earned Leave
-- Unpaid Leave / LOP
-
-When a leave request is approved:
-
-1. The system checks the employee's available paid leave.
-2. Available paid leave is deducted from the corresponding leave balance.
-3. If the requested number of days exceeds the available paid leave, the remaining days are counted as LOP.
-4. Pending requests do not reduce the leave balance.
-5. Rejected requests do not reduce the leave balance.
-6. Leave balances never become negative.
-
----
-
-## 3. Responsive Design
-
-The application has been designed to be responsive across:
-
-- Desktop
-- Laptop
-- Tablet
-- Mobile devices
-
-Tailwind CSS responsive utility classes are used to adapt:
-
-- Navigation
-- Dashboard cards
-- Forms
-- Tables
-- Leave request sections
-- Buttons
-- Layouts
-- Admin dashboard
-- Employee dashboard
-
-The application is intended to provide a consistent user experience across different screen sizes.
-
----
-
-## 4. Technology Stack
-
-### Frontend
-
-- React.js
-- JavaScript
-- Vite
-- Tailwind CSS
-- Axios
-- React Router DOM
-- React Select
-- React Hot Toast
-- React Icons
-
-### Backend
-
-- Node.js
-- Express.js
-- MySQL2
-- JWT
-- bcryptjs
-- CORS
-- dotenv
-
-### Database
-
-- MySQL
-
-### Development Tools
-
-- Visual Studio Code
-- Git
-- GitHub
-- Postman
-- npm
-
-### Deployment
-
-- Frontend: Vercel
-- Backend: Vercel
-- Database: MySQL
-
----
-
-## 5. Clone the Project
-
-Clone the GitHub repository using:
-
-```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
-```
-
-Navigate into the project folder:
-
-```bash
-cd Leave_Management_System
-```
-
-The project contains two main applications:
+## Architecture
 
 ```text
-frontend/
-backend/
+Browser
+  |
+  | HTTPS
+  v
+React + Vite frontend (Vercel)
+  |
+  | Axios / REST API
+  v
+Node.js + Express backend (Vercel)
+  |
+  | mysql2 with TLS
+  v
+Aiven MySQL (defaultdb)
+  +-- users
+  +-- leave_balances
+  +-- leave_requests
 ```
 
-The frontend and backend need to be run separately during local development.
+## Tech stack
 
----
+| Layer | Technologies |
+|---|---|
+| Frontend | React, JavaScript, Vite, Tailwind CSS, Axios, React Router DOM, React Select, React Hot Toast, React Icons |
+| Backend | Node.js, Express, mysql2, JWT, bcryptjs, CORS, Helmet, compression, express-rate-limit, dotenv |
+| Database | MySQL on Aiven |
+| Source control | Git, GitHub |
+| Hosting | Vercel (frontend and backend), Aiven (database) |
 
-## 6. Prerequisites
+## Repository structure
 
-Before running the project, make sure the following are installed:
+```text
+.
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── pages/
+│   │   ├── api.js
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   └── package.json
+└── backend/
+    ├── api/
+    │   └── index.js
+    ├── config/
+    │   └── db.js
+    ├── controllers/
+    ├── middleware/
+    ├── routes/
+    ├── server.js
+    ├── addUsers.js
+    └── package.json
+```
 
-- Node.js
-- npm
-- MySQL
-- Git
+## Prerequisites
 
-You can check the installed versions using:
+- Node.js and npm.
+- Git.
+- MySQL server for local development, or access to a compatible MySQL database.
+- MySQL Workbench or another MySQL client is recommended.
+
+Check installations:
 
 ```bash
 node --version
@@ -206,118 +107,127 @@ npm --version
 git --version
 ```
 
-Make sure MySQL is running before starting the backend.
+## Local setup
 
----
+### 1. Clone the repository
 
-## 7. Database Setup
+```bash
+git clone https://github.com/Floydsequeira07/employee-leave-management.git
+cd employee-leave-management
+```
 
-The application uses MySQL as its database.
+### 2. Create the database and tables
 
-### Database Name
+For local MySQL, create and select a database:
 
 ```sql
 CREATE DATABASE leave_management_exelon;
-
 USE leave_management_exelon;
 ```
 
-### Database Tables
+Create the three tables (the hosted Aiven database uses the database name `defaultdb`):
 
-The database contains the following tables:
+```sql
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  role ENUM('employee', 'admin') NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-**1. users**
+CREATE TABLE IF NOT EXISTS leave_balances (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL UNIQUE,
+  casual_leave INT DEFAULT 12,
+  sick_leave INT DEFAULT 10,
+  earned_leave INT DEFAULT 15,
+  unpaid_leave INT DEFAULT 0,
+  casual_total INT DEFAULT 12,
+  sick_total INT DEFAULT 10,
+  earned_total INT DEFAULT 15,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
 
-Stores admin and employee login details, including name, email, hashed password, and role.
+CREATE TABLE IF NOT EXISTS leave_requests (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  leave_type ENUM('casual', 'sick', 'earned') NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
+  reason TEXT NOT NULL,
+  status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+  admin_comment TEXT,
+  applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+```
 
-**2. leave_balances**
+If using Aiven, connect through MySQL Workbench with the Aiven connection information and SSL settings, then run the table statements after selecting `defaultdb`. Do not create a separate database named `leave_management_exelon` on Aiven unless you have explicitly configured the service to use it.
 
-Stores employee leave balances, including:
+### 3. Configure the backend
 
-- Casual Leave (12 days)
-- Sick Leave (10 days)
-- Earned Leave (15 days)
-- Unpaid Leave (LOP)
+```bash
+cd backend
+npm install
+```
 
-It also stores the total allowed and remaining leave balances.
+Create `backend/.env`:
 
-**3. leave_requests**
+```env
+PORT=5000
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=YOUR_LOCAL_MYSQL_PASSWORD
+DB_NAME=leave_management_exelon
+JWT_SECRET=REPLACE_WITH_A_LONG_RANDOM_SECRET
+FRONTEND_URL=http://localhost:5173
+```
 
-Stores employee leave applications, including:
+For Aiven, replace the database values with the Aiven hostname, port, username, password, and database name `defaultdb`. Keep secrets private. The backend database module uses TLS configuration for the hosted connection.
 
-- Leave type
-- Start date
-- End date
-- Reason
-- Request status
-- Admin comments
-- Application date
+Run the backend:
 
-Create the database and tables by executing the SQL queries in MySQL Workbench.
+```bash
+npm run dev
+```
 
-Make sure all required columns and foreign key relationships are created before running the backend.
+The local API runs at `http://localhost:5000`.
 
-### Demo User Setup
+### 4. Provision demo users
 
-The project includes an `addUsers.js` script inside the backend folder to insert demo admin and employee accounts.
-
-Run the following command from the backend directory:
+After the schema exists and the backend `.env` points to the database where you want the accounts created, run this from the backend directory:
 
 ```bash
 node addUsers.js
 ```
 
-This creates one admin account and two employee accounts with their initial leave balances.
+The script provisions one admin and two employee accounts and initializes their leave balances. Run it once per database. The script uses bcryptjs to hash passwords.
 
----
+Assessment demo credentials (change these before any real-world use):
 
-## 8. Backend Setup
+| Role | Email | Password |
+|---|---|---|
+| Admin | admin@gmail.com | admin123 |
+| Employee | emp1@gmail.com | employee123 |
+| Employee | emp2@gmail.com | employee123 |
 
-The backend is located inside:
+### 5. Configure and run the frontend
 
-```text
-backend/
-```
-
-Open a terminal from the project root.
-
-Navigate to the backend:
+Open a second terminal:
 
 ```bash
-cd backend
-```
-
-Install the backend dependencies:
-
-```bash
+cd frontend
 npm install
 ```
 
-Create a `.env` file inside the backend folder:
-
-```text
-backend/.env
-```
-
-Add the following configuration:
+Create `frontend/.env`:
 
 ```env
-PORT=5000
-
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=YOUR_MYSQL_PASSWORD
-DB_NAME=leave_management_exelon
-
-JWT_SECRET=YOUR_JWT_SECRET
+VITE_API_URL=http://localhost:5000
 ```
-
-Replace `YOUR_MYSQL_PASSWORD` with your local MySQL password and configure a secure JWT secret.
-
-Make sure the `.env` file is not uploaded to GitHub.
-
-### Start the Backend
 
 Run:
 
@@ -325,173 +235,109 @@ Run:
 npm run dev
 ```
 
-The backend will run on:
+Vite normally serves the app at `http://localhost:5173`.
 
-```text
-http://localhost:5000
+## Environment variables
+
+### Frontend
+
+| Name | Purpose | Local value |
+|---|---|---|
+| `VITE_API_URL` | Backend API base URL | `http://localhost:5000` |
+
+For the Vercel frontend, set `VITE_API_URL` to `https://backend-blush-beta-84.vercel.app`. Vite variables are embedded at build time, so redeploy the frontend after changing this value.
+
+### Backend
+
+| Name | Purpose | Local example |
+|---|---|---|
+| `PORT` | Local Express port | `5000` |
+| `DB_HOST` | MySQL hostname | `localhost` |
+| `DB_PORT` | MySQL port | `3306` |
+| `DB_USER` | MySQL username | `root` |
+| `DB_PASSWORD` | MySQL password | Set privately |
+| `DB_NAME` | Database schema | `leave_management_exelon` |
+| `JWT_SECRET` | JWT signing secret | Set privately |
+| `FRONTEND_URL` | Allowed frontend origin for CORS | `http://localhost:5173` |
+
+For production, configure the backend variables in Vercel. The Aiven production database uses its assigned hostname and port, username `avnadmin`, and database `defaultdb`. Never commit a real `.env` file or credentials.
+
+## API overview
+
+Base URL: `https://backend-blush-beta-84.vercel.app`
+
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| GET | `/` | Public | API status message |
+| GET | `/health` | Public | Health check |
+| POST | `/api/auth/login` | Public | User login |
+| GET | `/api/leaves/balance/:userId` | Authenticated | Get leave balance |
+| GET | `/api/leaves/my-leaves/:userId` | Authenticated | Get the user's leave requests |
+| POST | `/api/leaves` | Authenticated | Apply for leave |
+| GET | `/api/leaves/admin/stats` | Admin | Get dashboard statistics |
+| GET | `/api/leaves/admin/all` | Admin | List all leave requests |
+| PUT | `/api/leaves/admin/:id/approve` | Admin | Approve a request |
+| PUT | `/api/leaves/admin/:id/reject` | Admin | Reject a request |
+
+Protected endpoints require the JWT bearer token:
+
+```http
+Authorization: Bearer <token>
 ```
 
-The main backend entry file is:
+Request and response body schemas are implemented in the backend controllers.
 
-```text
-backend/server.js
-```
+## Deployment
 
-You can verify that the backend is running by opening:
+### Hosting overview
 
-```text
-http://localhost:5000/
-```
+| Component | Provider | Production URL / resource |
+|---|---|---|
+| Frontend | Vercel | https://employee-leave-management-floyd.vercel.app |
+| Backend | Vercel | https://backend-blush-beta-84.vercel.app |
+| Database | Aiven | MySQL service `leave-management-db`, schema `defaultdb` |
+| Source code | GitHub | https://github.com/Floydsequeira07/employee-leave-management |
 
-Expected response:
+### Required services
 
-```json
-{
-  "message": "Leave Management API is running"
-}
-```
+- GitHub repository containing the source.
+- Vercel frontend project configured with Root Directory `frontend`.
+- Vercel backend project configured with Root Directory `backend`.
+- Aiven MySQL service with the application tables and initial users.
+- Vercel environment variables for the frontend and backend.
 
----
+### Initial deployment procedure
 
-## 9. Frontend Setup
+1. Push the repository to GitHub.
+2. Import the repository into Vercel and create a frontend project with Root Directory `frontend`, framework Vite, build command `npm run build`, and output directory `dist`.
+3. Create a second Vercel project for the backend with Root Directory `backend`.
+4. Configure the backend environment variables in Vercel, including Aiven database connection values, `JWT_SECRET`, and `FRONTEND_URL`.
+5. Create the database tables in Aiven and provision the demo users.
+6. Set the frontend Vercel variable `VITE_API_URL` to the backend production URL.
+7. Deploy both projects and test the public health endpoint and login flow.
 
-The frontend is located inside:
+### Updating the deployment
 
-```text
-frontend/
-```
+1. Make and test the code changes locally.
+2. Commit and push to the connected GitHub branch (normally `main`).
+3. Vercel automatically builds and deploys the changed project when Git integration is enabled.
+4. Check the Vercel deployment status and runtime logs.
+5. Test the frontend and affected API endpoints after deployment.
 
-Open a new terminal while keeping the backend terminal running.
+When only an environment variable changes, update it in the corresponding Vercel project and redeploy that project; a GitHub push is not needed. Frontend `VITE_*` changes require a new frontend build/deployment.
 
-From the project root, run:
+## Security notes
 
-```bash
-cd frontend
-```
+- Do not commit `.env`, passwords, database credentials, or JWT secrets.
+- Keep demo passwords limited to assessment/testing and rotate them before broader use.
+- Use HTTPS in production.
+- Use the exact frontend origin in the backend CORS configuration.
+- Restrict database access and rotate credentials if they are exposed.
 
-Install the frontend dependencies:
+## Business Requirements Document
 
-```bash
-npm install
-```
+The detailed Business Requirements Document is available at [docs/BRD.md](docs/BRD.md). It covers business objectives, scope, stakeholders, functional and non-functional requirements, architecture, data requirements, API summary, assumptions, acceptance criteria, risks, and deployment.
 
-Start the frontend:
+## License
 
-```bash
-npm run dev
-```
-
-Vite will display a local URL, normally:
-
-```text
-http://localhost:5173
-```
-
-Open that URL in your browser.
-
-The main frontend files are:
-
-```text
-frontend/src/main.jsx
-frontend/src/App.jsx
-```
-
----
-
-## 10. Running Frontend and Backend Together
-
-The frontend and backend must be running at the same time.
-
-You need two terminals.
-
-### Terminal 1 - Backend
-
-From the project root:
-
-```bash
-cd backend
-npm install
-npm run dev
-```
-
-Backend:
-
-```text
-http://localhost:5000
-```
-
-### Terminal 2 - Frontend
-
-Open another terminal and from the project root run:
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Frontend:
-
-```text
-http://localhost:5173
-```
-
-Then open the frontend URL in your browser:
-
-```text
-http://localhost:5173
-```
-
-The frontend communicates with the backend through REST APIs.
-
----
-
-## 11. Demo Login Credentials
-
-The project contains two employee accounts and one admin account for testing.
-
-### Admin
-
-- Name: Admin
-- Email: admin@gmail.com
-- Password: admin123
-- Role: Admin
-
-### Employee 1
-
-- Name: Employee 1
-- Email: emp1@gmail.com
-- Password: employee123
-- Role: Employee
-
-### Employee 2
-
-- Name: Employee 2
-- Email: emp2@gmail.com
-- Password: employee123
-- Role: Employee
-
-### Login Instructions
-
-1. Open the application.
-2. Select the required role.
-3. Enter the email.
-4. Enter the password.
-5. Click Login.
-
-Example Admin login:
-
-```text
-Role: Admin
-Email: admin@gmail.com
-Password: admin123
-```
-
-Example Employee login:
-
-```text
-Role: Employee
-Email: emp1@gmail.com
-Password: employee123
-```
-
+No open-source license has been specified for this assessment project.

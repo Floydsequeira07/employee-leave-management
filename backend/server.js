@@ -17,7 +17,7 @@ app.use(compression());
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://leave-management-floyd.vercel.app",
+  "https://employee-leave-management-floyd.vercel.app/",
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
